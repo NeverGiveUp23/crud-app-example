@@ -1,9 +1,52 @@
-import React from "react";
-
+import React, {useEffect, useState} from "react";
+import {SERVER_URL} from "../constant";
+import CarForm from "./CarForm";
+import DeleteCars from "./DeleteCars";
+import EditCars from "./EditCars";
 
 function Car() {
+    const [cars, setCars] = useState();
+
+    const getCars = async () => {
+        const response = await fetch(
+            SERVER_URL + '/car'
+        ).then(
+            (response) => response.json()
+        );
+        setCars(response);
+    }
+
+    function handleClick() {
+        getCars();
+    }
+
+    useEffect(() => {
+        getCars();
+    }, []);
+
     return (
-        <h2> Cars </h2>
+        <>
+            <table>
+                <tr>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                </tr>
+
+                {cars && cars.map((car) => (
+                    <tr key={car.id}>
+                        <td>{car.brand}</td>
+                        <td>{car.model}</td>
+                        <td>{car.year}</td>
+                        <td><EditCars car={car} handleClick={handleClick}/></td>
+                        <td><DeleteCars handleClick={handleClick} id={car.id}/></td>
+                    </tr>
+                ))}
+            </table>
+            <CarForm handleClick={handleClick}/>
+        </>
+
+
     )
 }
 

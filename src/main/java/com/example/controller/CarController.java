@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/car")
+@CrossOrigin
 public class CarController {
 
     private final CarService carService;
