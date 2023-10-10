@@ -1,10 +1,14 @@
 package com.example.controller;
 
 import com.example.dto.CarDTO;
+import com.example.entity.UserEntity;
+import com.example.entity.UserRole;
 import com.example.service.CarService;
+import com.example.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +21,8 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
+
+    private final UserService userService;
 
     @GetMapping("/{id}")
     public CarDTO findById(@PathVariable Long id){
@@ -36,10 +42,13 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         carService.delete(id);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }

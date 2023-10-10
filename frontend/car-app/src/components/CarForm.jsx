@@ -10,6 +10,7 @@ function CarForm({ handleClick }) {
 
         const requestOptions = {
             method: "POST",
+            credentials: "include",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formJson)
         }

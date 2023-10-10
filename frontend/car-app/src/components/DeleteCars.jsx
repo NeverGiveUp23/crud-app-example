@@ -6,6 +6,7 @@ function DeleteCars({id, handleClick}) {
     function deleteCar() {
         const requestOptions = {
             method: "DELETE",
+            credentials: "include",
             headers: {'Content-Type': 'application/json'}
         }
         let idObject = {id}

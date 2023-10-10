@@ -9,11 +9,16 @@ function Car() {
 
     const getCars = async () => {
         const response = await fetch(
-            SERVER_URL + '/car'
+            SERVER_URL + '/car',
+            {method: 'GET', redirect: "follow", credentials: "include"}
         ).then(
-            (response) => response.json()
+            (response) => response
         );
-        setCars(response);
+        if(response.redirected) {
+            document.location = response.url
+        }
+        const data = await response.json();
+        setCars(data);
     }
 
     function handleClick() {
